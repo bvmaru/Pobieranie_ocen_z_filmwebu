@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time
 from download_info_from_site import *
+from exporting_to_excel import *
 
 PATH = (r"C:\Users\Marcel\Desktop\copy\chromedriver.exe")
 movie_list = []
@@ -37,10 +38,13 @@ finally:
         else:
             nr_strony += 1
 
-for el in movie_list:
-    print(el)
+excel_saver1(movie_list)
 
-print(len(movie_list))
+# for movie in movie_list:
+#     sub_list = []
+#     for value in movie.values():
+#         sub_list.append(value)
+#     excel_saver(sub_list)
 
 #      test_test_3690
 #      Haslotestowedofilmwebu1

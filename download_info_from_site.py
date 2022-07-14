@@ -26,12 +26,12 @@ def download_info_from_site(driver):
             fav = 1
         date_added = packs[i].find_element(By.CLASS_NAME, 'voteCommentBox__date')
         movie = {
-            'title': Title.text,
-            'orig_title': orig_title.text,
-            'year': year.text,
-            'rate': rate.text,
-            'fav': fav,
-            'date_added': date_added.text,
+            'Title': Title.text,
+            'Orig. title': orig_title.text,
+            'Year': year.text,
+            'Rate': rate.text,
+            'Fav': fav,
+            'Date added': date_added.text,
         }
         movie_sub_list.append(movie)
     return movie_sub_list
