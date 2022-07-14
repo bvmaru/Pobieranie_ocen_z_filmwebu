@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+
 import time
 
 PATH = (r"C:\Users\Marcel\Desktop\copy\chromedriver.exe")
@@ -17,11 +19,9 @@ try:
     )
 finally:
     driver.get('http://filmweb.pl/user/test_test_3690/films?page=1')
-    time.sleep(5)
+    time.sleep(1)
     try:
         packs = driver.find_elements(By.CLASS_NAME, 'myVoteBox__mainBox')
-        first_titles = driver.find_elements(By.CLASS_NAME, 'preview__link')
-        second_titles = driver.find_elements(By.CLASS_NAME, 'preview__originalTitle')
         print(len(packs))
         for i in range(len(packs)):
             Title = packs[i].find_element(By.CLASS_NAME, 'preview__link')
@@ -32,12 +32,10 @@ finally:
 
             year = packs[i].find_element(By.CLASS_NAME, 'preview__year')
             rate = packs[i].find_element(By.CLASS_NAME, 'userRate__rate')
-            #fav1 = packs[i].find_element(By.CLASS_NAME, 'userRate__favourite favourite')
-            # if len(fav1.find_elements(By.CLASS_NAME, 'favourite__icon ico favourite__icon--active')) == 0:
-            #     fav = 0
-            # else:
-            #     fav = 1
-            fav = 1
+            if len(packs[i].find_elements(By.CLASS_NAME, 'favourite__icon--active')) == 0:
+                fav = 0
+            else:
+                fav = 1
             date_added = packs[i].find_element(By.CLASS_NAME, 'voteCommentBox__date')
             movie = {
                 'title': Title.text,
