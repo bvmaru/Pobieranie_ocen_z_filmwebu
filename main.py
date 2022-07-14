@@ -6,11 +6,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-
 import time
+from download_info_from_site import *
 
 PATH = (r"C:\Users\Marcel\Desktop\copy\chromedriver.exe")
 movie_list = []
+user_name = input('Padaj swoją nazwę użytkownika Filmwebu (pamiętaj o zachowaniu odpowidniej wielkości znaków):')
 driver = webdriver.Chrome(PATH)
 driver.get('http://filmweb.pl/login')
 try:
@@ -18,54 +19,28 @@ try:
         EC.presence_of_element_located((By.NAME, "j_username"))
     )
 finally:
-    driver.get('http://filmweb.pl/user/test_test_3690/films?page=1')
-    time.sleep(1)
-    try:
-        packs = driver.find_elements(By.CLASS_NAME, 'myVoteBox__mainBox')
-        print(len(packs))
-        for i in range(len(packs)):
-            Title = packs[i].find_element(By.CLASS_NAME, 'preview__link')
-            if len(packs[i].find_elements(By.CLASS_NAME, 'preview__originalTitle')) == 0:
-                orig_title = Title
-            else:
-                orig_title = packs[i].find_element(By.CLASS_NAME, 'preview__originalTitle')
-
-            year = packs[i].find_element(By.CLASS_NAME, 'preview__year')
-            rate = packs[i].find_element(By.CLASS_NAME, 'userRate__rate')
-            if len(packs[i].find_elements(By.CLASS_NAME, 'favourite__icon--active')) == 0:
-                fav = 0
-            else:
-                fav = 1
-            date_added = packs[i].find_element(By.CLASS_NAME, 'voteCommentBox__date')
-            movie = {
-                'title': Title.text,
-                'orig_title': orig_title.text,
-                'year': year.text,
-                'rate': rate.text,
-                'fav': fav,
-                'date_added': date_added.text,
-            }
-            movie_list.append(movie)
-            
-
-
-        # for i in range(len(rates)):
-        #     if second_titles[i] != None:
-        #         print(second_titles[i].text +" "+rates[i].text)
-        #     else:
-        #         print(first_titles[i].text +" "+rates[i].text)
-
-
-        # page = driver.page_source
-        # testFile = open('testFileSelenium.html', 'wb')
-        # testFile.write(page)
-        # testFile.close()
-
-    except:
-        print('Coś poszło nie tak!')
+    nr_strony = 1
+    while(True):
+        driver.get('http://filmweb.pl/user/%s/films?page=%s' % (user_name, nr_strony))
+        time.sleep(1)
+        body = driver.find_element(By.CSS_SELECTOR, 'body')
+        for i in range(15):
+            time.sleep(0.5)
+            body.send_keys(Keys.PAGE_DOWN)
+        try:
+            movie_list.extend(download_info_from_site(driver))        
+        except:
+            print('Coś poszło nie tak!')
+        if len(driver.find_elements(By.CLASS_NAME, 'ico--arrowRight')) == 0:
+            driver.quit()
+            break
+        else:
+            nr_strony += 1
 
 for el in movie_list:
     print(el)
+
+print(len(movie_list))
 
 #      test_test_3690
 #      Haslotestowedofilmwebu1

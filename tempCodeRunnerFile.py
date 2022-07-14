@@ -1,1 +1,1 @@
-y userRate--hasRate userRate--showSeenWhenZero ')[0].text)
+test_test_3690
