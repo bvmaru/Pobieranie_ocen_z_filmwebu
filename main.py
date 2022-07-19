@@ -1,18 +1,17 @@
 from cmath import inf
-from genericpath import exists
-from turtle import title
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time
+import os
 from download_info_from_site import *
-from exporting_to_excel import *
+from exporting_to_file import *
 
-PATH = (r"C:\Users\Marcel\Desktop\copy\chromedriver.exe")
+PATH = (os.getcwd()+"\\chromedriver.exe")
 movie_list = []
-user_name = input('Padaj swoją nazwę użytkownika Filmwebu (pamiętaj o zachowaniu odpowidniej wielkości znaków):')
+user_name = input('Padaj swoją nazwę użytkownika Filmwebu (pamiętaj o zachowaniu odpowiedniej wielkości znaków):')
 driver = webdriver.Chrome(PATH)
 driver.get('http://filmweb.pl/login')
 try:
@@ -38,7 +37,7 @@ finally:
         else:
             nr_strony += 1
 
-excel_saver1(movie_list)
+s_saver1(movie_list)
 
 # for movie in movie_list:
 #     sub_list = []

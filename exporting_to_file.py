@@ -20,7 +20,7 @@ def excel_saver(movies):
     wb.save(filename="movie_list.xlsx")
 
 
-def excel_saver1(movies):
+def s_saver1(movies):
     df = pd.DataFrame(data = movies)
 
-    df.to_excel('movie_list1.xlsx', index=False)
+    df.to_csv('movie_list1.1.csv', index=False)
